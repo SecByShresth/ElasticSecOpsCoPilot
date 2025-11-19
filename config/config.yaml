@@ -1,19 +1,5 @@
 # Elastic SecOps Copilot Configuration
 # IPLocation.net replaces MaxMind - Free API, no database needed!
-
-elastic:
-  deployment_type: serverless
-  
-  serverless:
-    api_endpoint: "ELASTIC-CLOUD-URL"
-    api_key: "API KEY"
-    space_id: "default"
-
-  ingestion:
-    indices:
-      - ".alerts-security.alerts-default"
-      - "logs-endpoint.events.*"
-      - "logs-system.*"
     query_size: 100
     scroll_timeout: "5m"
     fetch_interval_seconds: 60
