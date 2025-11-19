@@ -5,8 +5,8 @@ elastic:
   deployment_type: serverless
   
   serverless:
-    api_endpoint: "https://my-security-project-b4d0ab.es.us-central1.gcp.elastic.cloud"
-    api_key: "VGVxZGs1b0JJa2UzaHBIcUZXN1o6a0lhU0R2TUZwcktvMktNQzZKSy1UQQ=="
+    api_endpoint: "ELASTIC-CLOUD-URL"
+    api_key: "API KEY"
     space_id: "default"
 
   ingestion:
@@ -23,7 +23,7 @@ enrichment:
   # VirusTotal - Hash Analysis
   virustotal:
     enabled: true
-    api_key: "2be0ebe533dd610dddf333c991dfd0beeeb43f86a560d325ac516a2e09b5ebe9"
+    api_key: "API KEY"
     batch_size: 4
     cache_ttl_seconds: 86400
     rate_limit:
@@ -38,7 +38,7 @@ enrichment:
   # AbuseIPDB - IP Reputation
   abuseipdb:
     enabled: true
-    api_key: "4e5c0387ae1675bec79de3a8d37f9bb3b706126797c1c3066b0c14b1693e494e90920783503d52cf"
+    api_key: "API KEY"
     cache_ttl_seconds: 86400
     lookup_fields:
       - source.ip
@@ -47,7 +47,7 @@ enrichment:
   # Shodan - IP Intelligence (Free tier limited)
   shodan:
     enabled: true
-    api_key: "IScaKcLoItlfzA396lsLjNhc2U0Reoue"
+    api_key: "API KEY"
     cache_ttl_seconds: 604800
     lookup_fields:
       - destination.ip
