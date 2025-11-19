@@ -1,5 +1,36 @@
 # Elastic SecOps Copilot Configuration
 # IPLocation.net replaces MaxMind - Free API, no database needed!
+
+elastic:
+  # Deployment type: 'serverless', 'cloud', or 'self_hosted'
+  deployment_type: serverless
+  
+  # For Elastic Cloud Serverless
+  serverless:
+    api_endpoint: "ELASTIC SEARCH ENDPOINT URL"
+    api_key: "ELASTIC SEARCH API KEY"
+    space_id: "default"
+
+  # For Elastic Cloud (Standard)
+  #cloud:
+  #  cloud_id: "deployment-name:..."
+  #  username: "elastic"
+  #  password: "..."
+
+  # For Self-Hosted
+  #self_hosted:
+  #  hosts:
+  #    - "https://localhost:9200"
+  #  username: "elastic"
+  #  password: "..."
+  #  verify_certs: true
+  #  ca_certs: "/path/to/ca.crt"
+
+  ingestion:
+    indices:
+      - ".alerts-security.alerts-default"
+      - "logs-endpoint.events.*"
+      - "logs-system.*"
     query_size: 100
     scroll_timeout: "5m"
     fetch_interval_seconds: 60
@@ -9,7 +40,7 @@ enrichment:
   # VirusTotal - Hash Analysis
   virustotal:
     enabled: true
-    api_key: "API KEY"
+    api_key: "VIRUS TOTAL API KEY"
     batch_size: 4
     cache_ttl_seconds: 86400
     rate_limit:
@@ -24,7 +55,7 @@ enrichment:
   # AbuseIPDB - IP Reputation
   abuseipdb:
     enabled: true
-    api_key: "API KEY"
+    api_key: "ABUSE IPDB API KEY"
     cache_ttl_seconds: 86400
     lookup_fields:
       - source.ip
@@ -33,7 +64,7 @@ enrichment:
   # Shodan - IP Intelligence (Free tier limited)
   shodan:
     enabled: true
-    api_key: "API KEY"
+    api_key: "SHODAN API KEY"
     cache_ttl_seconds: 604800
     lookup_fields:
       - destination.ip
