@@ -1,0 +1,59 @@
+# Core dependencies
+python-dotenv
+pyyaml
+requests
+httpx
+
+# Elasticsearch
+elasticsearch
+elastic-transport
+
+# Enrichment APIs (using HTTP only)
+virustotal-python
+python-whois
+maxminddb
+geoip2
+ipaddress
+
+# Data processing & analysis
+pandas
+numpy
+networkx
+
+# Machine learning
+# scikit-learn (NOT compatible with 3.13 yet — remove for now)
+
+# Caching
+redis
+cachetools
+
+# Logs & config
+structlog
+python-json-logger
+
+# Time + UUID
+python-dateutil
+pytz
+uuid6
+
+# Testing
+pytest
+pytest-cov
+pytest-mock
+responses
+
+# Code quality
+black
+flake8
+isort
+mypy
+pylint
+
+# Docs
+sphinx
+sphinx-rtd-theme
+
+# Packaging
+setuptools
+wheel
+twine

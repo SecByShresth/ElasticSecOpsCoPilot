@@ -1,0 +1,62 @@
+{
+  "attack_matrix_version": "14",
+  "enterprise": {
+    "tactics": [
+      {"id": "TA0001", "name": "Initial Access"},
+      {"id": "TA0002", "name": "Execution"},
+      {"id": "TA0003", "name": "Persistence"},
+      {"id": "TA0004", "name": "Privilege Escalation"},
+      {"id": "TA0005", "name": "Defense Evasion"},
+      {"id": "TA0006", "name": "Credential Access"},
+      {"id": "TA0007", "name": "Discovery"},
+      {"id": "TA0008", "name": "Lateral Movement"},
+      {"id": "TA0009", "name": "Collection"},
+      {"id": "TA0010", "name": "Exfiltration"},
+      {"id": "TA0011", "name": "Command and Control"}
+    ],
+    "techniques": [
+      {
+        "id": "T1059",
+        "name": "Command and Scripting Interpreter",
+        "tactics": ["TA0002"],
+        "examples": ["powershell", "cmd.exe", "wscript", "python"],
+        "description": "Execution of scripts or command-shell interpreters."
+      },
+      {
+        "id": "T1047",
+        "name": "WMI Execution",
+        "tactics": ["TA0002", "TA0003"],
+        "examples": ["wmic", "wmiquery"],
+        "description": "Adversaries may use WMI for remote execution."
+      },
+      {
+        "id": "T1021",
+        "name": "Remote Services",
+        "tactics": ["TA0008"],
+        "examples": ["RDP 3389", "SSH 22"],
+        "description": "Lateral movement via remote services."
+      },
+      {
+        "id": "T1003",
+        "name": "Credential Dumping",
+        "tactics": ["TA0006"],
+        "examples": ["lsass dump", "mimikatz"],
+        "description": "Dumping credentials from system memory."
+      },
+      {
+        "id": "T1083",
+        "name": "File and Directory Discovery",
+        "tactics": ["TA0007"],
+        "examples": ["dir", "ls", "search"],
+        "description": "Enumerating files/directories."
+      },
+      {
+        "id": "T1041",
+        "name": "Exfiltration Over C2 Channel",
+        "tactics": ["TA0010"],
+        "examples": ["HTTPS exfiltration", "DNS tunneling"],
+        "description": "Data exfiltration using C2 channels."
+      }
+    ]
+  }
+}

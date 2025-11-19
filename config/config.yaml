@@ -1,0 +1,176 @@
+# Elastic SecOps Copilot Configuration
+# IPLocation.net replaces MaxMind - Free API, no database needed!
+
+elastic:
+  deployment_type: serverless
+  
+  serverless:
+    api_endpoint: "https://my-security-project-b4d0ab.es.us-central1.gcp.elastic.cloud"
+    api_key: "VGVxZGs1b0JJa2UzaHBIcUZXN1o6a0lhU0R2TUZwcktvMktNQzZKSy1UQQ=="
+    space_id: "default"
+
+  ingestion:
+    indices:
+      - ".alerts-security.alerts-default"
+      - "logs-endpoint.events.*"
+      - "logs-system.*"
+    query_size: 100
+    scroll_timeout: "5m"
+    fetch_interval_seconds: 60
+    backfill_days: 7
+
+enrichment:
+  # VirusTotal - Hash Analysis
+  virustotal:
+    enabled: true
+    api_key: "2be0ebe533dd610dddf333c991dfd0beeeb43f86a560d325ac516a2e09b5ebe9"
+    batch_size: 4
+    cache_ttl_seconds: 86400
+    rate_limit:
+      requests_per_minute: 4
+      requests_per_day: 500
+      requests_per_month: 15500
+    lookup_fields:
+      - file.hash.md5
+      - file.hash.sha256
+      - url.full
+
+  # AbuseIPDB - IP Reputation
+  abuseipdb:
+    enabled: true
+    api_key: "4e5c0387ae1675bec79de3a8d37f9bb3b706126797c1c3066b0c14b1693e494e90920783503d52cf"
+    cache_ttl_seconds: 86400
+    lookup_fields:
+      - source.ip
+      - destination.ip
+
+  # Shodan - IP Intelligence (Free tier limited)
+  shodan:
+    enabled: true
+    api_key: "IScaKcLoItlfzA396lsLjNhc2U0Reoue"
+    cache_ttl_seconds: 604800
+    lookup_fields:
+      - destination.ip
+      - source.ip
+
+  # IPLocation.net - GeoIP (FREE API - No database or key needed!)
+  iplocation:
+    enabled: true
+    cache_ttl_seconds: 604800  # 7 days
+    lookup_fields:
+      - source.ip
+      - destination.ip
+      - host.ip
+
+  # WHOIS - Domain Registration
+  whois:
+    enabled: true
+    cache_ttl_seconds: 604800
+    lookup_fields:
+      - domain.name
+      - url.domain
+
+  # Parallel enrichment settings
+  parallel_workers: 4
+  timeout_seconds: 30
+  retry_attempts: 3
+  retry_backoff_seconds: 2
+
+triage:
+  severity_thresholds:
+    critical: 80
+    high: 60
+    medium: 40
+    low: 20
+
+  classification:
+    enabled: true
+    model_type: "rule_based"
+    confidence_threshold: 0.7
+
+  deduplication_window: 15
+
+  auto_close:
+    enabled: true
+    rules:
+      - name: "benign_process"
+        score_max: 15
+      - name: "false_positive"
+        score_max: 10
+
+correlation:
+  time_window_seconds: 3600
+  min_correlation_score: 0.5
+  patterns:
+    - name: "multi_failed_login_detection"
+      threshold: 5
+      window_seconds: 600
+    - name: "lateral_movement"
+      threshold: 3
+      window_seconds: 1800
+    - name: "data_exfiltration_chain"
+      threshold: 2
+      window_seconds: 3600
+
+notes:
+  include_enrichment_summary: true
+  include_mitre_mapping: true
+  include_remediation: true
+  include_evidence_chain: true
+  language: "english"
+
+mitre:
+  database_path: "config/mitre_techniques.json"
+  auto_map: true
+  confidence_threshold: 0.6
+
+detection:
+  deployment:
+    enabled: false
+    overwrite_existing: false
+    tags:
+      - "custom"
+      - "secops-copilot"
+  rules_path: "detections/"
+
+dashboards:
+  creation:
+    enabled: false
+    overwrite_existing: false
+    refresh_interval: "1m"
+  includes:
+    - alert_timeline
+    - severity_distribution
+    - top_techniques
+    - enrichment_summary
+    - correlation_network
+    - geographic_distribution
+
+logging:
+  level: "INFO"
+  format: "json"
+  file: "logs/elastic-secops-copilot.log"
+  max_file_size_mb: 100
+  backup_count: 10
+  console_output: true
+
+cache:
+  backend: "memory"
+  redis:
+    host: "localhost"
+    port: 6379
+    db: 0
+  file:
+    directory: ".cache"
+
+performance:
+  batch_processing: true
+  batch_size: 50
+  max_workers: 4
+  queue_size: 1000
+  enable_metrics: true
+
+security:
+  verify_ssl: true
+  ca_bundle: null
+  secrets_backend: "environment"
